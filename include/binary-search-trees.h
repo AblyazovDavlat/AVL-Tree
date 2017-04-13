@@ -18,10 +18,10 @@ public:
     BinarySearchTree();
     virtual ~BinarySearchTree();
 
-    Node* searchMin(Node *node = 0) const;
-    Node* searchMax(Node *node = 0) const;
-    Node* searchPrev(Node *node);
-    Node* searchNext(Node *node);
+    Node* searchMin(Node* const node = 0) const;
+    Node* searchMax(Node* const node = 0) const;
+    Node* searchPrev(Node* const node) const;
+    Node* searchNext(Node* const node) const;
     Node* search(float key);
 
     virtual void insert(Node *&node);

@@ -16,7 +16,7 @@ void BinarySearchTree::recursiveDel(Node *node) {
     delete node;
 }
 
-Node* BinarySearchTree::searchMin(Node *node) const {
+Node* BinarySearchTree::searchMin(Node* const node) const {
     Node *currentNode;
     if (node == 0)
         currentNode = root;
@@ -29,7 +29,7 @@ Node* BinarySearchTree::searchMin(Node *node) const {
     return currentNode;
 }
 
-Node* BinarySearchTree::searchMax(Node *node) const {
+Node* BinarySearchTree::searchMax(Node* const node) const {
     Node *currentNode;
     if (node == 0)
         currentNode = root;
@@ -42,28 +42,30 @@ Node* BinarySearchTree::searchMax(Node *node) const {
     return currentNode;
 }
 
-Node* BinarySearchTree::searchPrev(Node *node) {
-    if (!node)
+Node* BinarySearchTree::searchPrev(Node* const node) const {
+    if (node == 0)
         return 0;
-    if (node->left)
+    if (node->left != 0)
         return searchMax(node->left);
 
-    Node *tmp = node;
-    while (tmp->parent && tmp == tmp->parent->left)
-        tmp = tmp->parent;
-    return tmp;
+    Node *currentNode = node;
+    while (currentNode->parent != 0 
+        && currentNode == currentNode->parent->left)
+        currentNode = currentNode->parent;
+    return currentNode;
 }
 
-Node* BinarySearchTree::searchNext(Node *node) {
-    if (!node)
+Node* BinarySearchTree::searchNext(Node* const node) const {
+    if (node == 0)
         return 0;
-    if (node->right)
+    if (node->right != 0)
         return searchMin(node->right);
 
-    Node *tmp = node;
-    while (tmp->parent && tmp == tmp->parent->right)
-        tmp = tmp->parent;
-    return tmp;
+    Node *currentNode = node;
+    while (currentNode->parent != 0 
+        && currentNode == currentNode->parent->right)
+        currentNode = currentNode->parent;
+    return currentNode;
 }
 
 Node* BinarySearchTree::search(float key) {
