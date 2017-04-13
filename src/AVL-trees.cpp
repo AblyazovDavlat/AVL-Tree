@@ -10,16 +10,17 @@ void AVLNode::setBalance(const char balance) {
 
 AVLTree::AVLTree() : BinarySearchTree() { }
 
-void AVLTree::insert(AVLNode *&node) {
+int AVLTree::insert(AVLNode *&node) {
     node->parent = 0;
     node->left = 0;
     node->right = 0;
     node->setBalance(0);
     if (!root) {
         root = node;
-        return;
+        return 0;
     }
     recursiveIns((AVLNode*&)root, node);
+    return 0;
 }
 
 void AVLTree::recursiveIns(AVLNode *&localRoot, AVLNode *&node) {

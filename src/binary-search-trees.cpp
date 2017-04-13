@@ -107,6 +107,17 @@ int BinarySearchTree::insert(Node *&node) {
     return 0;
 }
 
+int BinarySearchTree::insert(const float key) {
+    Node* node = new Node;
+    node->parent = 0;
+    node->left = 0;
+    node->right = 0;
+    node->key = key;
+    node->data = 0;
+
+    return this->insert(node);
+}
+
 Node* BinarySearchTree::pull(float key) {
     Node *x = 0;
     Node *y = 0;

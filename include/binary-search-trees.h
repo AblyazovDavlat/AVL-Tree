@@ -24,7 +24,8 @@ public:
     Node* searchNext(Node* const node) const;
     Node* search(const float key) const;
 
-    virtual void insert(Node *&node);
+    virtual int insert(Node *&node);
+    virtual int insert(const float key);
     virtual void remove(float key);
     virtual Node* pull(float key);
 

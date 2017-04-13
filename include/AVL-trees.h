@@ -16,7 +16,7 @@ public:
     AVLTree();
     virtual ~AVLTree() {};
 
-    virtual void insert(AVLNode *&node);
+    virtual int insert(AVLNode *&node);
     virtual void remove(float key);
     virtual void remove(Node* node);
     virtual Node* pull(float key);
