@@ -13,7 +13,7 @@ public:
 
 class AVLTree : public BinarySearchTree {
 public:
-    AVLTree();
+    AVLTree() : BinarySearchTree() {};
     virtual ~AVLTree() {};
 
     virtual int insert(AVLNode *&node);

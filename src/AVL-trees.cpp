@@ -9,8 +9,6 @@ int AVLNode::setBalance(const int balance) {
     return 0;
 }
 
-AVLTree::AVLTree() : BinarySearchTree() { }
-
 int AVLTree::insert(AVLNode *&node) {
     node->parent = 0;
     node->left = 0;
