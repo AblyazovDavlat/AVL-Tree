@@ -5,10 +5,10 @@
 
 class AVLNode : public Node {
 protected:
-    char balance;
+    int balance;
 public:
-    char getBalance() const;
-    void setBalance(const char balance);
+    int getBalance() const;
+    int setBalance(const int balance);
 };
 
 class AVLTree : public BinarySearchTree {

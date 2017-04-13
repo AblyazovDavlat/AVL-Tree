@@ -1,11 +1,12 @@
 #include "AVL-Trees.h"
 
-char AVLNode::getBalance() const {
+int AVLNode::getBalance() const {
     return balance;
 }
 
-void AVLNode::setBalance(const char balance) {
+int AVLNode::setBalance(const int balance) {
     this->balance = balance;
+    return 0;
 }
 
 AVLTree::AVLTree() : BinarySearchTree() { }
