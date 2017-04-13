@@ -82,25 +82,29 @@ Node* BinarySearchTree::search(const float key) const {
     return currentNode;
 }
 
-void BinarySearchTree::insert(Node *&node) {
-    if (!root) {
+int BinarySearchTree::insert(Node *&node) {
+    if (root == 0) {
         root = node;
-        return;
+        return 0;
     }
-    Node *tmp = root;
-    Node *tmpPrev;
-    while (tmp) {
-        tmpPrev = tmp;
-        if (tmp->key < node->key)
-            tmp = tmp->right;
+
+    Node* currentNode = root;
+    Node* tmpPrev;
+    while (currentNode != 0) {
+        tmpPrev = currentNode;
+        if (currentNode->key < node->key)
+            currentNode = currentNode->right;
         else
-            tmp = tmp->left;
+            currentNode = currentNode->left;
     }
+
     node->parent = tmpPrev;
     if (tmpPrev->key <= node->key)
         tmpPrev->right = node;
     else
         tmpPrev->left = node;
+
+    return 0;
 }
 
 Node* BinarySearchTree::pull(float key) {
