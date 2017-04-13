@@ -8,14 +8,6 @@ BinarySearchTree::~BinarySearchTree() {
     recursiveDel(root);
 }
 
-void BinarySearchTree::recursiveDel(Node *node) {
-    if (!node)
-        return;
-    recursiveDel(node->left);
-    recursiveDel(node->right);
-    delete node;
-}
-
 Node* BinarySearchTree::searchMin(Node* const node) const {
     Node* currentNode;
     if (node == 0)
@@ -157,8 +149,16 @@ int BinarySearchTree::remove(const float key) {
 }
 
 int BinarySearchTree::isEmpty() const {
-    if (root)
+    if (root != 0)
         return 0;
     else
         return 1;
+}
+
+void BinarySearchTree::recursiveDel(Node *node) {
+    if (!node)
+        return;
+    recursiveDel(node->left);
+    recursiveDel(node->right);
+    delete node;
 }
