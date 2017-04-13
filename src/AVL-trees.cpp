@@ -42,8 +42,9 @@ void AVLTree::recursiveIns(AVLNode *&localRoot, AVLNode *&node) {
     decisionOnBalancing(localRoot);
 }
 
-void AVLTree::remove(float key) {
+int AVLTree::remove(const float key) {
     delete recursiveRem((AVLNode*&)root, key);
+    return 0;
 }
 
 void AVLTree::remove(Node* node) {

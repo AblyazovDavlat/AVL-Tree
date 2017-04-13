@@ -146,8 +146,14 @@ Node* BinarySearchTree::pull(const float key) {
     return y;
 }
 
-void BinarySearchTree::remove(float key) {
-    delete pull(key);
+int BinarySearchTree::remove(const float key) {
+    Node* node = pull(key);
+    if (node != 0) {
+        delete node;
+        return 0;
+    }
+    else
+        return -1;
 }
 
 int BinarySearchTree::isEmpty() const {
