@@ -118,10 +118,13 @@ int BinarySearchTree::insert(const float key) {
     return this->insert(node);
 }
 
-Node* BinarySearchTree::pull(float key) {
-    Node *x = 0;
-    Node *y = 0;
-    Node *z = search(key);
+Node* BinarySearchTree::pull(const float key) {
+    Node* x = 0;
+    Node* y = 0;
+    Node* z = search(key);
+
+    //This is hardcode. Even I don't remember how to understand it.
+    //But it works.
 
     if (z->left && z->right)
         y = searchNext(z);

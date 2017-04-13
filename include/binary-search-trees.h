@@ -27,7 +27,7 @@ public:
     virtual int insert(Node *&node);
     virtual int insert(const float key);
     virtual void remove(float key);
-    virtual Node* pull(float key);
+    virtual Node* pull(const float key);
 
     int isEmpty() const;
 
