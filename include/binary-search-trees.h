@@ -22,7 +22,7 @@ public:
     Node* searchMax(Node* const node = 0) const;
     Node* searchPrev(Node* const node) const;
     Node* searchNext(Node* const node) const;
-    Node* search(float key);
+    Node* search(const float key) const;
 
     virtual void insert(Node *&node);
     virtual void remove(float key);
