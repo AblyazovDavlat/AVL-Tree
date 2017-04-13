@@ -32,7 +32,7 @@ public:
     int isEmpty() const;
 
 protected:
-    void recursiveDel(Node *node);
+    void recursiveDel(Node *node); //for destructor
 };
 
 #endif //BINARY_SEARCH_TREES_H

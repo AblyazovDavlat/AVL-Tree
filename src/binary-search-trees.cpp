@@ -156,7 +156,7 @@ int BinarySearchTree::isEmpty() const {
 }
 
 void BinarySearchTree::recursiveDel(Node *node) {
-    if (!node)
+    if (node == 0)
         return;
     recursiveDel(node->left);
     recursiveDel(node->right);
