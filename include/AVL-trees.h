@@ -16,7 +16,7 @@ public:
     AVLTree() : BinarySearchTree() {};
     virtual ~AVLTree() {};
 
-    virtual int insert(AVLNode *&node);
+    virtual int insert(AVLNode*& const node);
     virtual int remove(const float key);
     virtual void remove(Node* node);
     virtual Node* pull(float key);

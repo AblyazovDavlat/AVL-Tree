@@ -9,12 +9,12 @@ int AVLNode::setBalance(const int balance) {
     return 0;
 }
 
-int AVLTree::insert(AVLNode *&node) {
+int AVLTree::insert(AVLNode*& const node) {
     node->parent = 0;
     node->left = 0;
     node->right = 0;
     node->setBalance(0);
-    if (!root) {
+    if (root == 0) {
         root = node;
         return 0;
     }
