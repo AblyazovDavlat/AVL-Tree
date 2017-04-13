@@ -1,4 +1,5 @@
-#pragma once
+#ifndef BINARY_SEARCH_TREES_H
+#define BINARY_SEARCH_TREES_H
 
 class Node {
 public:
@@ -30,3 +31,5 @@ public:
 
     int isEmpty() const;
 };
+
+#endif //BINARY_SEARCH_TREES_H

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef AVL_TREES_H
+#define AVL_TREES_H
+
 #include "binary-search-trees.h"
 
 class AVLNode : public Node {
@@ -32,3 +34,5 @@ private:
     void recursiveIns(AVLNode *&localRoot, AVLNode *&node);
     Node* recursiveRem(AVLNode *&localRoot, float key);
 };
+
+#endif //AVL_TREES_H
