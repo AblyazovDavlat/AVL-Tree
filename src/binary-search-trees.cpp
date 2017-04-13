@@ -16,30 +16,30 @@ void BinarySearchTree::recursiveDel(Node *node) {
     delete node;
 }
 
-Node* BinarySearchTree::searchMin(Node *node) {
-    Node *tmp;
-    if (!node)
-        tmp = root;
+Node* BinarySearchTree::searchMin(Node *node) const {
+    Node *currentNode;
+    if (node == 0)
+        currentNode = root;
     else
-        tmp = node;
-    if (!tmp)
+        currentNode = node;
+    if (currentNode == 0)
         return 0;
-    while (tmp->left)
-        tmp = tmp->left;
-    return tmp;
+    while (currentNode->left != 0)
+        currentNode = currentNode->left;
+    return currentNode;
 }
 
-Node* BinarySearchTree::searchMax(Node *node) {
-    Node *tmp;
-    if (!node)
-        tmp = root;
+Node* BinarySearchTree::searchMax(Node *node) const {
+    Node *currentNode;
+    if (node == 0)
+        currentNode = root;
     else
-        tmp = node;
-    if (!tmp)
+        currentNode = node;
+    if (currentNode == 0)
         return 0;
-    while (tmp->right)
-        tmp = tmp->right;
-    return tmp;
+    while (currentNode->right != 0)
+        currentNode = currentNode->right;
+    return currentNode;
 }
 
 Node* BinarySearchTree::searchPrev(Node *node) {
