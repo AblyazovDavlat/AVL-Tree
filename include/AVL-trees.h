@@ -7,6 +7,8 @@ class AVLNode : public Node {
 protected:
     int balance;
 public:
+    AVLNode() {};
+    AVLNode(const Node& node);
     int getBalance() const;
     int setBalance(const int balance);
 };
@@ -17,6 +19,7 @@ public:
     virtual ~AVLTree() {};
 
     virtual int insert(AVLNode*& const node);
+    virtual int insert(const float key);
     virtual int remove(const float key);
     virtual void remove(Node* node);
     virtual Node* pull(float key);

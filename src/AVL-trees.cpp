@@ -1,5 +1,13 @@
 #include "AVL-Trees.h"
 
+AVLNode::AVLNode(const Node& node) {
+    this->parent = node.parent;
+    this->left = node.left;
+    this->right = node.right;
+    this->key = node.key;
+    this->data = node.data;
+}
+
 int AVLNode::getBalance() const {
     return balance;
 }
@@ -20,6 +28,17 @@ int AVLTree::insert(AVLNode*& const node) {
     }
     recursiveIns((AVLNode*&)root, node);
     return 0;
+}
+
+int AVLTree::insert(const float key) {
+    AVLNode* node = new AVLNode;
+    node->key = key;
+    node->data = 0;
+    node->parent = 0;
+    node->left = 0;
+    node->right = 0;
+    node->setBalance(0);
+    return insert(node);
 }
 
 void AVLTree::recursiveIns(AVLNode *&localRoot, AVLNode *&node) {
