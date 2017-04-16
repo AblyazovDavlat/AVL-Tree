@@ -1,34 +1,41 @@
-#pragma once
+#ifndef AVL_TREES_H
+#define AVL_TREES_H
+
 #include "binary-search-trees.h"
 
 class AVLNode : public Node {
 protected:
-	char balance;
+    int balance;
 public:
-	char getBalance() const;
-	void setBalance(const char balance);
+    AVLNode() {};
+    AVLNode(const Node& node);
+    int getBalance() const;
+    int setBalance(const int balance);
 };
 
 class AVLTree : public BinarySearchTree {
 public:
-	AVLTree();
-	virtual ~AVLTree(){};
+    AVLTree() : BinarySearchTree() {};
+    virtual ~AVLTree() {};
 
-	virtual void insert(AVLNode *&node);
-	virtual void remove(float key);
-	virtual void remove(Node* node);
-	virtual Node* pull(float key);
-	virtual Node* pull(Node* node);
+    virtual int insert(AVLNode*& const node);
+    virtual int insert(const float key);
+    virtual int remove(const float key);
+    virtual void remove(Node* node);
+    virtual Node* pull(const float key);
+    virtual Node* pull(Node* node);
 
 private:
-	int balanceDetection(AVLNode *node, int &dep);
-	int depth(AVLNode *node);
-	int decisionOnBalancing(AVLNode *&node);
-	int singleRightTurn(AVLNode *&node);
-	int singleLeftTurn(AVLNode *&node);
-	int doubleRightTurn(AVLNode *&node);
-	int doubleLeftTurn(AVLNode *&node);
+    const int depth(AVLNode* const node);
+    const int balanceDetection(AVLNode* const node, int &dep);
+    const int decisionOnBalancing(AVLNode*& node);
+    const int singleRightTurn(AVLNode*& node);
+    const int singleLeftTurn(AVLNode*& node);
+    const int doubleRightTurn(AVLNode*& node);
+    const int doubleLeftTurn(AVLNode*& node);
 
-	void recursiveIns(AVLNode *&localRoot, AVLNode *&node);
-	Node* recursiveRem(AVLNode *&localRoot, float key); 
+    void recursiveIns(AVLNode*& const localRoot, AVLNode*& node);
+    Node* recursiveRem(AVLNode*& const localRoot, const float key);
 };
+
+#endif //AVL_TREES_H

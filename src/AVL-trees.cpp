@@ -1,144 +1,150 @@
 #include "AVL-Trees.h"
 
-char AVLNode::getBalance() const 
-{
-	return balance;
+AVLNode::AVLNode(const Node& node) {
+    this->parent = node.parent;
+    this->left = node.left;
+    this->right = node.right;
+    this->key = node.key;
+    this->data = node.data;
 }
 
-void AVLNode::setBalance(const char balance)
-{
-	this->balance = balance;
+int AVLNode::getBalance() const {
+    return balance;
 }
 
-AVLTree::AVLTree() : BinarySearchTree()
-{
+int AVLNode::setBalance(const int balance) {
+    this->balance = balance;
+    return 0;
 }
 
-void AVLTree::insert(AVLNode *&node)
-{
-	node->parent = 0;
-	node->left = 0;
-	node->right = 0;
-	node->setBalance(0);
-	if (!root) 
-	{
-		root = node;
-		return;
-	}
-	recursiveIns((AVLNode*&)root, node);
+int AVLTree::insert(AVLNode*& const node) {
+    node->parent = 0;
+    node->left = 0;
+    node->right = 0;
+    node->setBalance(0);
+    if (root == 0) {
+        root = node;
+        return 0;
+    }
+    recursiveIns((AVLNode*&)root, node);
+    return 0;
 }
 
-void AVLTree::recursiveIns(AVLNode *&localRoot, AVLNode *&node)
-{
-	if (node->key < localRoot->key) {
-		if (!localRoot->left) {
-			localRoot->left = node;
-			node->parent = localRoot;
-		}
-		else
-			recursiveIns((AVLNode*&)localRoot->left, node);
-	}
-	else {
-		if (!localRoot->right) {
-			localRoot->right = node;
-			node->parent = localRoot;
-		}
-		else
-			recursiveIns((AVLNode*&)localRoot->right, node);
-	}
-	
-	decisionOnBalancing(localRoot);
+int AVLTree::insert(const float key) {
+    AVLNode* node = new AVLNode;
+    node->key = key;
+    node->data = 0;
+    node->parent = 0;
+    node->left = 0;
+    node->right = 0;
+    node->setBalance(0);
+    return insert(node);
 }
 
-void AVLTree::remove(float key) 
-{
-	delete recursiveRem((AVLNode*&)root, key);
+void AVLTree::recursiveIns(AVLNode*& const localRoot, AVLNode *&node) {
+    if (node->key < localRoot->key)
+        if (localRoot->left == 0) {
+            localRoot->left = node;
+            node->parent = localRoot;
+        }
+        else
+            recursiveIns((AVLNode*&)localRoot->left, node);
+    else 
+        if (localRoot->right == 0) {
+            localRoot->right = node;
+            node->parent = localRoot;
+        }
+        else
+            recursiveIns((AVLNode*&)localRoot->right, node);
+
+    decisionOnBalancing(localRoot);
 }
 
-void AVLTree::remove(Node* node)
-{
-	delete recursiveRem((AVLNode*&)root, node->key);
+int AVLTree::remove(const float key) {
+    delete recursiveRem((AVLNode*&)root, key);
+    return 0;
 }
 
-Node* AVLTree::pull(float key)
-{
-	return recursiveRem((AVLNode*&)root, key);
+void AVLTree::remove(Node* node) {
+    delete recursiveRem((AVLNode*&)root, node->key);
 }
 
-Node* AVLTree::pull(Node* node)
-{
-	return recursiveRem((AVLNode*&)root, node->key);
+Node* AVLTree::pull(const float key) {
+    return recursiveRem((AVLNode*&)root, key);
 }
 
-Node* AVLTree::recursiveRem(AVLNode *&localRoot, float key)
-{
-	Node *result;
-	if (!localRoot)
-		return 0;
-	if (key < localRoot->key)
-		result = recursiveRem((AVLNode*&)localRoot->left, key);
-	else if (key > localRoot->key)
-		result = recursiveRem((AVLNode*&)localRoot->right, key);
-	else {
-		if (!localRoot->left && !localRoot->right) {
-			Node* killed = localRoot;
-			if (localRoot->parent)
-				if (localRoot->parent->left == localRoot)
-					localRoot->parent->left = 0;
-				else
-					localRoot->parent->right = 0;
-			else 
-				root = 0;
-			return killed;
-		}
-		else if (localRoot->left && !localRoot->right) {
-			Node* son = localRoot->left;
-			Node* killed = localRoot;
-			son->parent = localRoot->parent;
-			if (localRoot->parent)
-				if (localRoot->parent->left == localRoot)
-					localRoot->parent->left = son;
-				else
-					localRoot->parent->right = son;
-			else
-				root = son;
-			return killed;
-		}
-		else if (!localRoot->left && localRoot->right) {
-			Node* son = localRoot->right;
-			Node* killed = localRoot;
-			son->parent = localRoot->parent;
-			if (localRoot->parent)
-				if (localRoot->parent->left == localRoot)
-					localRoot->parent->left = son;
-				else
-					localRoot->parent->right = son;
-			else
-				root = son;
-			return killed;
-		}
-		else {
-			Node *next = searchNext(localRoot);
-			recursiveRem((AVLNode*&)localRoot->right, next->key);
-			Node *killed = localRoot;
-			next->left = localRoot->left;
-			if (next->left)
-				next->left->parent = next;
-			next->right = localRoot->right;
-			if (next->right)
-				next->right->parent = next;
-			next->parent = localRoot->parent;
-			if (localRoot->parent)
-				if (localRoot->parent->left == localRoot)
-					localRoot->parent->left = next;
-				else
-					localRoot->parent->right = next;
-			else
-				root = next;
-			return killed;
-		}
-	}
-	
-	decisionOnBalancing(localRoot);
-	return result;
+Node* AVLTree::pull(Node* node) {
+    return recursiveRem((AVLNode*&)root, node->key);
+}
+
+Node* AVLTree::recursiveRem(AVLNode*& const localRoot, const float key) {
+    Node *result;
+    if (localRoot == 0)
+        return 0;
+    if (key < localRoot->key)
+        result = recursiveRem((AVLNode*&)localRoot->left, key);
+    else if (key > localRoot->key)
+        result = recursiveRem((AVLNode*&)localRoot->right, key);
+    else {
+        if (localRoot->left == 0 && localRoot->right == 0) {
+            Node* killed = localRoot;
+            if (localRoot->parent != 0)
+                if (localRoot->parent->left == localRoot)
+                    localRoot->parent->left = 0;
+                else
+                    localRoot->parent->right = 0;
+            else
+                root = 0;
+            return killed;
+        }
+        else if (localRoot->left != 0 && localRoot->right == 0) {
+            Node* son = localRoot->left;
+            Node* killed = localRoot;
+            son->parent = localRoot->parent;
+            if (localRoot->parent != 0)
+                if (localRoot->parent->left == localRoot)
+                    localRoot->parent->left = son;
+                else
+                    localRoot->parent->right = son;
+            else
+                root = son;
+            return killed;
+        }
+        else if (localRoot->left == 0 && localRoot->right != 0) {
+            Node* son = localRoot->right;
+            Node* killed = localRoot;
+            son->parent = localRoot->parent;
+            if (localRoot->parent != 0)
+                if (localRoot->parent->left == localRoot)
+                    localRoot->parent->left = son;
+                else
+                    localRoot->parent->right = son;
+            else
+                root = son;
+            return killed;
+        }
+        else {
+            Node *next = searchNext(localRoot);
+            recursiveRem((AVLNode*&)localRoot->right, next->key);
+            Node *killed = localRoot;
+            next->left = localRoot->left;
+            if (next->left != 0)
+                next->left->parent = next;
+            next->right = localRoot->right;
+            if (next->right != 0)
+                next->right->parent = next;
+            next->parent = localRoot->parent;
+            if (localRoot->parent != 0)
+                if (localRoot->parent->left == localRoot)
+                    localRoot->parent->left = next;
+                else
+                    localRoot->parent->right = next;
+            else
+                root = next;
+            return killed;
+        }
+    }
+
+    decisionOnBalancing(localRoot);
+    return result;
 }

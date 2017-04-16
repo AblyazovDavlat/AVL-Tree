@@ -1,151 +1,164 @@
 #include "binary-search-trees.h"
 
-BinarySearchTree::BinarySearchTree()
-{
-	root = 0;
+BinarySearchTree::BinarySearchTree() {
+    root = 0;
 }
 
-BinarySearchTree::~BinarySearchTree()
-{
-	recursiveDel(root);
+BinarySearchTree::~BinarySearchTree() {
+    recursiveDel(root);
 }
 
-void BinarySearchTree::recursiveDel(Node *node)
-{
-	if(!node)
-		return;
-	recursiveDel(node->left);
-	recursiveDel(node->right);
-	delete node;
+Node* BinarySearchTree::searchMin(Node* const node) const {
+    Node* currentNode;
+    if (node == 0)
+        currentNode = root;
+    else
+        currentNode = node;
+    if (currentNode == 0)
+        return 0;
+    while (currentNode->left != 0)
+        currentNode = currentNode->left;
+    return currentNode;
 }
 
-Node* BinarySearchTree::searchMin(Node *node)
-{
-	Node *tmp;
-	if (!node)
-		tmp = root;
-	else
-		tmp = node;
-	if (!tmp)
-		return 0;
-	while (tmp->left)
-		tmp = tmp->left;
-	return tmp;
+Node* BinarySearchTree::searchMax(Node* const node) const {
+    Node* currentNode;
+    if (node == 0)
+        currentNode = root;
+    else
+        currentNode = node;
+    if (currentNode == 0)
+        return 0;
+    while (currentNode->right != 0)
+        currentNode = currentNode->right;
+    return currentNode;
 }
 
-Node* BinarySearchTree::searchMax(Node *node)
-{
-	Node *tmp;
-	if (!node)
-		tmp = root;
-	else
-		tmp = node;
-	if (!tmp)
-		return 0;
-	while (tmp->right)
-		tmp = tmp->right;
-	return tmp;
+Node* BinarySearchTree::searchPrev(Node* const node) const {
+    if (node == 0)
+        return 0;
+    if (node->left != 0)
+        return searchMax(node->left);
+
+    Node* currentNode = node;
+    while (currentNode->parent != 0 
+        && currentNode == currentNode->parent->left)
+        currentNode = currentNode->parent;
+    return currentNode;
 }
 
-Node* BinarySearchTree::searchPrev(Node *node)
-{
-	if (!node)
-		return 0;
-	if(node->left)
-		return searchMax(node->left);
+Node* BinarySearchTree::searchNext(Node* const node) const {
+    if (node == 0)
+        return 0;
+    if (node->right != 0)
+        return searchMin(node->right);
 
-	Node *tmp = node;
-	while((tmp->parent) && (tmp == tmp->parent->left))
-		tmp = tmp->parent;
-	return tmp;
+    Node* currentNode = node;
+    while (currentNode->parent != 0 
+        && currentNode == currentNode->parent->right)
+        currentNode = currentNode->parent;
+    return currentNode;
 }
 
-Node* BinarySearchTree::searchNext(Node *node)
-{
-	if (!node)
-		return 0;
-	if(node->right)
-		return searchMin(node->right);
+Node* BinarySearchTree::search(const float key) const {
+    Node* currentNode = root;
+    if (currentNode == 0)
+        return 0;
 
-	Node *tmp = node;
-	while((tmp->parent) && (tmp == tmp->parent->right))
-		tmp = tmp->parent;
-	return tmp;
+    while (currentNode != 0 && currentNode->key != key)
+        if (key < currentNode->key)
+            currentNode = currentNode->left;
+        else
+            currentNode = currentNode->right;
+
+    return currentNode;
 }
 
-Node* BinarySearchTree::search(float key)
-{
-	Node *tmp = root;
-	if (!tmp) 
-		return 0;
-	while ((tmp) && (tmp->key != key))
-	{
-		if (key < tmp->key)
-			tmp = tmp->left;
-		else
-			tmp = tmp->right;
-	}
-	return tmp;
+int BinarySearchTree::insert(Node *&node) {
+    if (root == 0) {
+        root = node;
+        return 0;
+    }
+
+    Node* currentNode = root;
+    Node* tmpPrev;
+    while (currentNode != 0) {
+        tmpPrev = currentNode;
+        if (currentNode->key < node->key)
+            currentNode = currentNode->right;
+        else
+            currentNode = currentNode->left;
+    }
+
+    node->parent = tmpPrev;
+    if (tmpPrev->key <= node->key)
+        tmpPrev->right = node;
+    else
+        tmpPrev->left = node;
+
+    return 0;
 }
 
-void BinarySearchTree::insert(Node *&node)
-{
-	if (!root) 
-	{
-		root = node;
-		return;
-	}
-	Node *tmp = root;
-	Node *tmpPrev;
-	while (tmp) {
-		tmpPrev = tmp;
-		if (tmp->key < node->key)
-			tmp = tmp->right;
-		else
-			tmp = tmp->left;
-	}
-	node->parent = tmpPrev;
-	if (tmpPrev->key <= node->key)
-		tmpPrev->right = node;
-	else
-		tmpPrev->left = node;
+int BinarySearchTree::insert(const float key) {
+    Node* node = new Node;
+    node->parent = 0;
+    node->left = 0;
+    node->right = 0;
+    node->key = key;
+    node->data = 0;
+
+    return this->insert(node);
 }
 
-Node* BinarySearchTree::pull(float key)
-{
-	Node *x = 0;
-	Node *y = 0;
-	Node *z = search(key);
+Node* BinarySearchTree::pull(const float key) {
+    Node* x = 0;
+    Node* y = 0;
+    Node* z = search(key);
 
-	if ((z->left) && (z->right))
-		y = searchNext(z);
-	else
-		y = z;
-	if (y->left)
-		x = y->left;
-	else 
-		x = y->right;
-	if (x)
-		x->parent = y->parent;
-	if (y->parent)
-		if (y == y->parent->left)
-			y->parent->left = x;
-		else
-			y->parent->right = x;
-	if (y != z)
-		z->key = y->key;
-	return y;
+    //This is hardcode. Even I don't remember how to understand it.
+    //But it works.
+
+    if (z->left && z->right)
+        y = searchNext(z);
+    else
+        y = z;
+    if (y->left)
+        x = y->left;
+    else
+        x = y->right;
+    if (x)
+        x->parent = y->parent;
+    if (y->parent)
+        if (y == y->parent->left)
+            y->parent->left = x;
+        else
+            y->parent->right = x;
+    if (y != z)
+        z->key = y->key;
+    return y;
 }
 
-void BinarySearchTree::remove(float key)
-{
-	delete pull(key);
+int BinarySearchTree::remove(const float key) {
+    Node* node = pull(key);
+    if (node != 0) {
+        delete node;
+        return 0;
+    }
+    else
+        return -1;
 }
 
-int BinarySearchTree::isEmpty() const 
-{
-	if (root) 
-		return 0;
-	else 
-		return 1;
+int BinarySearchTree::isEmpty() const {
+    if (root != 0)
+        return 0;
+    else
+        return 1;
+}
+
+void BinarySearchTree::recursiveDel(Node *node) {
+    if (node == 0)
+        return;
+    recursiveDel(node->left);
+    recursiveDel(node->right);
+    delete node;
 }
