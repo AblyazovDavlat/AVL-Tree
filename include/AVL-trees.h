@@ -22,7 +22,7 @@ public:
     virtual int insert(const float key);
     virtual int remove(const float key);
     virtual void remove(Node* node);
-    virtual Node* pull(float key);
+    virtual Node* pull(const float key);
     virtual Node* pull(Node* node);
 
 private:

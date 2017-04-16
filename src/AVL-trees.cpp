@@ -69,7 +69,7 @@ void AVLTree::remove(Node* node) {
     delete recursiveRem((AVLNode*&)root, node->key);
 }
 
-Node* AVLTree::pull(float key) {
+Node* AVLTree::pull(const float key) {
     return recursiveRem((AVLNode*&)root, key);
 }
 
