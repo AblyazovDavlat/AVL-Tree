@@ -26,13 +26,13 @@ public:
     virtual Node* pull(Node* node);
 
 private:
-    int balanceDetection(AVLNode *node, int &dep);
-    int depth(AVLNode *node);
-    int decisionOnBalancing(AVLNode *&node);
-    int singleRightTurn(AVLNode *&node);
-    int singleLeftTurn(AVLNode *&node);
-    int doubleRightTurn(AVLNode *&node);
-    int doubleLeftTurn(AVLNode *&node);
+    const int depth(AVLNode* const node);
+    const int balanceDetection(AVLNode* const node, int &dep);
+    const int decisionOnBalancing(AVLNode*& node);
+    const int singleRightTurn(AVLNode*& node);
+    const int singleLeftTurn(AVLNode*& node);
+    const int doubleRightTurn(AVLNode*& node);
+    const int doubleLeftTurn(AVLNode*& node);
 
     void recursiveIns(AVLNode*& const localRoot, AVLNode*& node);
     Node* recursiveRem(AVLNode*& const localRoot, const float key);

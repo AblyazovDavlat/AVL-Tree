@@ -1,24 +1,24 @@
 #include "AVL-Trees.h"
 
-int AVLTree::depth(AVLNode* node) {
-    if (!node)
+const int AVLTree::depth(AVLNode* const node) {
+    if (node == 0)
         return -1;
-    int l = depth((AVLNode*)node->left);
-    int r = depth((AVLNode*)node->right);
-    node->setBalance(l - r);
-    return r > l ? r + 1 : l + 1;
+    int leftDepth = depth((AVLNode*)node->left);
+    int rightDepth = depth((AVLNode*)node->right);
+    node->setBalance(leftDepth - rightDepth);
+    return rightDepth > leftDepth ? rightDepth + 1 : leftDepth + 1;
 }
 
-int AVLTree::balanceDetection(AVLNode *node, int &dep) {
+const int AVLTree::balanceDetection(AVLNode* const node, int &dep) {
     dep = depth(node);
     return node->getBalance();
 }
 
-int AVLTree::decisionOnBalancing(AVLNode *&node) {
-    if (!node)
+const int AVLTree::decisionOnBalancing(AVLNode *&node) {
+    if (node == 0)
         return -1;
     int dep;
-    char balance = balanceDetection(node, dep);
+    int balance = balanceDetection(node, dep);
     if (balance == 2)
         if (((AVLNode*)node->left)->getBalance() > 0)
             singleRightTurn(node);
@@ -32,7 +32,7 @@ int AVLTree::decisionOnBalancing(AVLNode *&node) {
     return dep;
 }
 
-int AVLTree::singleRightTurn(AVLNode *&node) {
+const int AVLTree::singleRightTurn(AVLNode *&node) {
     AVLNode *A = node;
     AVLNode *B = (AVLNode*)A->left;
     AVLNode *t1 = (AVLNode*)B->left;
@@ -53,7 +53,7 @@ int AVLTree::singleRightTurn(AVLNode *&node) {
     return depB;
 }
 
-int AVLTree::singleLeftTurn(AVLNode *&node) {
+const int AVLTree::singleLeftTurn(AVLNode *&node) {
     AVLNode *A = node;
     AVLNode *B = (AVLNode*)A->right;
     AVLNode *t1 = (AVLNode*)A->left;
@@ -74,7 +74,7 @@ int AVLTree::singleLeftTurn(AVLNode *&node) {
     return depB;
 }
 
-int AVLTree::doubleRightTurn(AVLNode *&node) {
+const int AVLTree::doubleRightTurn(AVLNode *&node) {
     AVLNode *A = node;
     AVLNode *B = (AVLNode*)A->left;
     AVLNode *C = (AVLNode*)B->right;
@@ -102,7 +102,7 @@ int AVLTree::doubleRightTurn(AVLNode *&node) {
     return depC;
 }
 
-int AVLTree::doubleLeftTurn(AVLNode *&node) {
+const int AVLTree::doubleLeftTurn(AVLNode *&node) {
     AVLNode *A = node;
     AVLNode *B = (AVLNode*)A->right;
     AVLNode *C = (AVLNode*)B->left;
