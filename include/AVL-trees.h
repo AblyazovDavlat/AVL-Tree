@@ -34,8 +34,8 @@ private:
     int doubleRightTurn(AVLNode *&node);
     int doubleLeftTurn(AVLNode *&node);
 
-    void recursiveIns(AVLNode *&localRoot, AVLNode *&node);
-    Node* recursiveRem(AVLNode *&localRoot, float key);
+    void recursiveIns(AVLNode*& const localRoot, AVLNode*& node);
+    Node* recursiveRem(AVLNode*& const localRoot, const float key);
 };
 
 #endif //AVL_TREES_H
