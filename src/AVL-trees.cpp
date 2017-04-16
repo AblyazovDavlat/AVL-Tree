@@ -110,7 +110,7 @@ Node* AVLTree::recursiveRem(AVLNode*& const localRoot, const float key) {
                 root = son;
             return killed;
         }
-        else if (localRoot->left == 0 && localRoot->right != =) {
+        else if (localRoot->left == 0 && localRoot->right != 0) {
             Node* son = localRoot->right;
             Node* killed = localRoot;
             son->parent = localRoot->parent;
