@@ -148,11 +148,23 @@ int BinarySearchTree::remove(const float key) {
         return -1;
 }
 
-int BinarySearchTree::isEmpty() const {
+const int BinarySearchTree::isEmpty() const {
     if (root != 0)
         return 0;
     else
         return 1;
+}
+
+const int BinarySearchTree::size() const {
+    return recursiveSize(root);
+}
+
+int BinarySearchTree::recursiveSize(const Node* const node) const {
+    if (node == 0)
+        return 0;
+    int size;
+    size = recursiveSize(node->left) + recursiveSize(node->right);
+    return size + 1;
 }
 
 void BinarySearchTree::recursiveDel(Node *node) {
