@@ -13,7 +13,7 @@ const int Set::empty() const {
 }
 
 const int Set::size() const {
-    //TODO: implement size
+    tree->size();
     return 0;
 }
 

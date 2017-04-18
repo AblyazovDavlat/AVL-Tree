@@ -24,15 +24,17 @@ public:
     Node* searchNext(Node* const node) const;
     Node* search(const float key) const;
 
-    virtual int insert(Node *&node);
+    virtual int insert(Node*& node);
     virtual int insert(const float key);
     virtual int remove(const float key);
     virtual Node* pull(const float key);
 
-    int isEmpty() const;
+    const int isEmpty() const;
+    const int size() const;
 
 protected:
-    void recursiveDel(Node *node); //for destructor
+    void recursiveDel(Node* node); //for destructor
+    int recursiveSize(const Node* const node) const; //for size()
 };
 
 #endif //BINARY_SEARCH_TREES_H
