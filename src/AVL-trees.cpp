@@ -61,7 +61,10 @@ void AVLTree::recursiveIns(AVLNode*& const localRoot, AVLNode *&node) {
 }
 
 int AVLTree::remove(const float key) {
-    delete recursiveRem((AVLNode*&)root, key);
+    Node* deletingNode = recursiveRem((AVLNode*&)root, key);
+    if (deletingNode == 0)
+        return -1;
+    delete deletingNode;
     return 0;
 }
 

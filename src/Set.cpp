@@ -13,8 +13,7 @@ const int Set::empty() const {
 }
 
 const int Set::size() const {
-    tree->size();
-    return 0;
+    return tree->size();
 }
 
 const int Set::insert(const float key) {
