@@ -21,7 +21,7 @@ public:
     virtual int insert(AVLNode*& const node);
     virtual int insert(const float key);
     virtual int remove(const float key);
-    virtual void remove(Node* node);
+    virtual int remove(Node* node);
     virtual Node* pull(const float key);
     virtual Node* pull(Node* node);
 

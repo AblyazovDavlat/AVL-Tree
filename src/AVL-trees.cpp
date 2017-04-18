@@ -68,8 +68,12 @@ int AVLTree::remove(const float key) {
     return 0;
 }
 
-void AVLTree::remove(Node* node) {
-    delete recursiveRem((AVLNode*&)root, node->key);
+int AVLTree::remove(Node* node) {
+    Node* deletingNode = recursiveRem((AVLNode*&)root, node->key);
+    if (deletingNode == 0)
+        return -1;
+    delete deletingNode;
+    return 0;
 }
 
 Node* AVLTree::pull(const float key) {
