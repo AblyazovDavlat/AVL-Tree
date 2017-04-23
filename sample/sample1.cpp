@@ -1,9 +1,11 @@
+#include <fstream>
 #include <iostream>
 #include "Set.h"
 #include <set>
 #include <vector>
 #include <ctime>
 #include <algorithm> 
+#include <chrono>
 using namespace std;
 
 bool Search_Binary(vector<float> vect, int left, int right, int key)
@@ -30,10 +32,9 @@ int main(int argc, char** argv) {
 	set <float> setRB;
 	vector<float> vect;
 	int size = atoi(argv[1]);
-
-	/*time_t start, end;
-	double time;
-	bool flag;*/
+	ofstream fout;
+	int sumTime = 0;
+	int flag;
 
 	for (int i = size - 1; i >= 0; i--) {
 		setAVL.insert(i * 3);
@@ -41,39 +42,58 @@ int main(int argc, char** argv) {
 		vect.push_back(i * 3);
 	}
 
+	fout.open("PerformanceStat.txt",ios_base::app);
 
-	cout << "Size: " << setAVL.size() << endl;
-	cout << boolalpha;
-
-	cout << "Result search to AVL-tree :" << endl;
-	for (int i = 1; i <= 10; i++)
-	{
-		/*ctime(&start);
-		flag = (bool)setAVL.find((size / 100)*i);
-		ctime(&end);
-		time = difftime(end, start) * 1000.0;
-		cout << "Searching element: " << (size / 100)*i << ' ' << "Time for find : " << time << endl;*/
-		cout << "Searching element: " << (size / 100)*i << ' ' << (bool)setAVL.find((size / 100)*i) << endl;
-	}
-
-
-	cout << "Result search to RB-tree :" << endl;
-	cout << boolalpha;
+	fout << "Size: " << setAVL.size() << endl;
+	fout << "Result search to AVL-tree :" << endl;
 	
+	for (int i = 1; i <= 10; i++)
+	{
+		auto begin = chrono::high_resolution_clock::now();
+		
+		setAVL.find((size / 100)*i);
+
+		auto end = chrono::high_resolution_clock::now();
+		fout << "Find " << i << " time = "<< chrono::duration_cast<chrono::microseconds>(end - begin).count() << "mc" << endl;
+		sumTime += chrono::duration_cast<chrono::microseconds>(end - begin).count();
+	}
+	fout << "Avetage time = " << sumTime / 10 << endl << endl;
+
+	sumTime = 0;
+
+	fout << "Size: " << setAVL.size() << endl;
+	fout << "Result search to RB-tree :" << endl;
 
 	for (int i = 1; i <= 10; i++)
 	{
-		cout <<"Searching element: "<< (size / 100)*i << ' ' << (bool)*setRB.find((size / 100)*i) << endl;
+		auto begin = chrono::high_resolution_clock::now();
+
+		setRB.find((size / 100)*i);
+
+		auto end = chrono::high_resolution_clock::now();
+		fout << "Find " << i << " time = " << chrono::duration_cast<chrono::microseconds>(end - begin).count() << "mc" << endl;
+		sumTime += chrono::duration_cast<chrono::microseconds>(end - begin).count();
 	}
+	fout << "Avetage time = " << sumTime / 10 << endl << endl;
+
+	sumTime = 0;
 
 	sort(vect.begin(), vect.end());
-	cout << "Result binary search to vector:" << endl;
-	cout << boolalpha;
+	fout << "Size: " << setAVL.size() << endl;
+	fout << "Result search to sort array :" << endl;
 
 	for (int i = 1; i <= 10; i++)
 	{
-		cout << "Searching element: " << (size / 100)*i << ' ' << (bool)Search_Binary(vect, 0, vect.size(), (size / 100)*i) << endl;
-	}
+		auto begin = chrono::high_resolution_clock::now();
 
+		Search_Binary(vect, 0, vect.size(), (size / 100)*i);
+
+		auto end = chrono::high_resolution_clock::now();
+		fout << "Find " << i << " time = " << chrono::duration_cast<chrono::microseconds>(end - begin).count() << "mc" << endl;
+		sumTime += chrono::duration_cast<chrono::microseconds>(end - begin).count();
+	}
+	fout << "Avetage time = " << sumTime / 10 << endl << endl;
+
+	fout.close();
 	return 0;
 }
