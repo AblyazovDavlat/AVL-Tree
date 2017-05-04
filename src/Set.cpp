@@ -17,12 +17,7 @@ const int Set::size() const {
 }
 
 const int Set::insert(const float key) {
-    if (tree->search(key) == 0) {
-        tree->insert(key);
-        return 0;
-    }
-    else
-        return -1;
+    return tree->insert(key);
 }
 
 const int Set::erase(const float key) {

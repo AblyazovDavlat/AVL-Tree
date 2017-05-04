@@ -34,7 +34,7 @@ private:
     const int doubleRightTurn(AVLNode*& node);
     const int doubleLeftTurn(AVLNode*& node);
 
-    void recursiveIns(AVLNode*& const localRoot, AVLNode*& node);
+    int recursiveIns(AVLNode*& const localRoot, AVLNode*& node);
     Node* recursiveRem(AVLNode*& const localRoot, const float key);
 };
 

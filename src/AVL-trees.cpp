@@ -26,22 +26,18 @@ int AVLTree::insert(AVLNode*& const node) {
         root = node;
         return 0;
     }
-    recursiveIns((AVLNode*&)root, node);
-    return 0;
+    int result = recursiveIns((AVLNode*&)root, node);
+    return result;
 }
 
 int AVLTree::insert(const float key) {
     AVLNode* node = new AVLNode;
     node->key = key;
     node->data = 0;
-    node->parent = 0;
-    node->left = 0;
-    node->right = 0;
-    node->setBalance(0);
     return insert(node);
 }
 
-void AVLTree::recursiveIns(AVLNode*& const localRoot, AVLNode *&node) {
+int AVLTree::recursiveIns(AVLNode*& const localRoot, AVLNode *&node) {
     if (node->key < localRoot->key)
         if (localRoot->left == 0) {
             localRoot->left = node;
@@ -49,15 +45,17 @@ void AVLTree::recursiveIns(AVLNode*& const localRoot, AVLNode *&node) {
         }
         else
             recursiveIns((AVLNode*&)localRoot->left, node);
-    else 
+    else if (node->key > localRoot->key)
         if (localRoot->right == 0) {
             localRoot->right = node;
             node->parent = localRoot;
         }
         else
             recursiveIns((AVLNode*&)localRoot->right, node);
-
+    else
+        return -1;
     decisionOnBalancing(localRoot);
+    return 0;
 }
 
 int AVLTree::remove(const float key) {
