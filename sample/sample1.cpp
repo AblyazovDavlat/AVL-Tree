@@ -5,27 +5,9 @@
 #include <vector>
 #include <ctime>
 #include <algorithm> 
-#include <chrono>
+#include <omp.h>
+#include <Windows.h>
 using namespace std;
-
-bool Search_Binary(vector<float> vect, int left, int right, int key)
-{
-	int midd = 0;
-	while (1)
-	{
-		midd = (left + right) / 2;
-
-		if (key < vect[midd])       // если искомое меньше значени€ в €чейке
-			right = midd - 1;      // смещаем правую границу поиска
-		else if (key > vect[midd])  // если искомое больше значени€ в €чейке
-			left = midd + 1;	   // смещаем левую границу поиска
-		else                       // иначе (значени€ равны)
-			return true;           // функци€ возвращает индекс €чейки
-
-		if (left > right)          // если границы сомкнулись 
-			return false;
-	}
-}
 
 int main(int argc, char** argv) {
 	Set setAVL;
@@ -33,66 +15,78 @@ int main(int argc, char** argv) {
 	vector<float> vect;
 	int size = atoi(argv[1]);
 	ofstream fout;
-	int sumTime = 0;
 	int flag;
-
+	double insertAVLbegin = omp_get_wtime();
 	for (int i = size - 1; i >= 0; i--) {
 		setAVL.insert(i * 3);
+	}
+	double insertAVLend = omp_get_wtime();
+	cout << insertAVLend - insertAVLbegin << endl;
+
+	double insertRBbegin = omp_get_wtime();
+	for (int i = size - 1; i >= 0; i--) {
 		setRB.insert(i * 3);
+	}
+	double insertRBend = omp_get_wtime();
+	cout << insertRBend - insertRBbegin << endl;
+
+	double insertVecbegin = omp_get_wtime();
+	for (int i = size - 1; i >= 0; i--) {
 		vect.push_back(i * 3);
 	}
+	double insertVecEnd = omp_get_wtime();
+	cout << insertVecEnd - insertVecbegin << endl;
+
 
 	fout.open("PerformanceStat.txt",ios_base::app);
 
 	fout << "Size: " << setAVL.size() << endl;
 	fout << "Result search to AVL-tree :" << endl;
-	
-	for (int i = 1; i <= 10; i++)
+	cout << boolalpha;
+	double begin = omp_get_wtime();
+	int result;
+	for (int i = 0; i <= (size); i++)
 	{
-		auto begin = chrono::high_resolution_clock::now();
-		
-		setAVL.find((size / 100)*i);
-
-		auto end = chrono::high_resolution_clock::now();
-		fout << "Find " << i << " time = "<< chrono::duration_cast<chrono::microseconds>(end - begin).count() << "mc" << endl;
-		sumTime += chrono::duration_cast<chrono::microseconds>(end - begin).count();
+		result = setAVL.find((size / 100)*i);
 	}
-	fout << "Avetage time = " << sumTime / 10 << endl << endl;
+	double end = omp_get_wtime();
+	fout << "Avetage time = " << end - begin << endl << endl;
 
-	sumTime = 0;
-
+	
+	
+	
+	
+	
 	fout << "Size: " << setAVL.size() << endl;
 	fout << "Result search to RB-tree :" << endl;
 
-	for (int i = 1; i <= 10; i++)
+	cout << boolalpha;
+	double beginRB = omp_get_wtime();
+	for (int i = 0; i <= (size); i++)
 	{
-		auto begin = chrono::high_resolution_clock::now();
-
-		setRB.find((size / 100)*i);
-
-		auto end = chrono::high_resolution_clock::now();
-		fout << "Find " << i << " time = " << chrono::duration_cast<chrono::microseconds>(end - begin).count() << "mc" << endl;
-		sumTime += chrono::duration_cast<chrono::microseconds>(end - begin).count();
+		result = *setRB.find((float)(size / 100)*i);
 	}
-	fout << "Avetage time = " << sumTime / 10 << endl << endl;
+	double endRB = omp_get_wtime();
+	fout << "Avetage time = " << endRB - beginRB << endl << endl;
 
-	sumTime = 0;
-
+	
+	
+	
+	
+	
 	sort(vect.begin(), vect.end());
 	fout << "Size: " << setAVL.size() << endl;
 	fout << "Result search to sort array :" << endl;
 
-	for (int i = 1; i <= 10; i++)
+	cout << boolalpha;
+	double beginBin = omp_get_wtime();
+	bool resultvec;
+	for (int i = 0; i <= (size); i++)
 	{
-		auto begin = chrono::high_resolution_clock::now();
-
-		Search_Binary(vect, 0, vect.size(), (size / 100)*i);
-
-		auto end = chrono::high_resolution_clock::now();
-		fout << "Find " << i << " time = " << chrono::duration_cast<chrono::microseconds>(end - begin).count() << "mc" << endl;
-		sumTime += chrono::duration_cast<chrono::microseconds>(end - begin).count();
+		resultvec = binary_search(vect.begin(), vect.end(), (size / 100)*i);
 	}
-	fout << "Avetage time = " << sumTime / 10 << endl << endl;
+	double endBin = omp_get_wtime();
+	fout << "Avetage time = " << endBin - beginBin << endl << endl;
 
 	fout.close();
 	return 0;
